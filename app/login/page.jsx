@@ -37,13 +37,18 @@ export default function LoginPage() {
     if (authError) {
       setErrorMsg(authError.message);
     } else {
-      // NEW: Smart Routing based on role
+      // Smart Routing based on role AND action
       const { data: { user } } = await supabase.auth.getUser();
       
       if (user?.email === 'doctor@vitbhopal.ac.in') {
-        router.push('/doctor/dashboard'); // Send staff to their portal
+        // 1. Doctor goes straight to their dashboard
+        router.push('/doctor/requests'); 
+      } else if (isSignUp) {
+        // 2. NEW students MUST go fill out their EHR profile
+        router.push('/profile/setup'); 
       } else {
-        router.push('/requests/new'); // Send students to the Request Hub
+        // 3. RETURNING students go straight to their tracking dashboard
+        router.push('/dashboard'); 
       }
     }
     
@@ -72,7 +77,7 @@ export default function LoginPage() {
             <input
               type="email"
               required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -82,7 +87,7 @@ export default function LoginPage() {
             <input
               type="password"
               required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -91,7 +96,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+            className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition"
           >
             {loading ? 'Processing...' : (isSignUp ? 'Sign Up' : 'Sign In')}
           </button>
@@ -102,7 +107,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => setIsSignUp(!isSignUp)}
-            className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none"
+            className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none transition"
           >
             {isSignUp ? 'Sign in' : 'Sign up'}
           </button>
