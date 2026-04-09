@@ -37,8 +37,14 @@ export default function LoginPage() {
     if (authError) {
       setErrorMsg(authError.message);
     } else {
-      // If successful, send them to the profile setup page we built earlier!
-      router.push('/profile/setup');
+      // NEW: Smart Routing based on role
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user?.email === 'doctor@vitbhopal.ac.in') {
+        router.push('/doctor/dashboard'); // Send staff to their portal
+      } else {
+        router.push('/requests/new'); // Send students to the Request Hub
+      }
     }
     
     setLoading(false);

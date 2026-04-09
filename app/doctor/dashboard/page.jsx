@@ -22,9 +22,14 @@ export default function DoctorDashboard() {
       return;
     }
 
-    // 2. Fetch all medical profiles
-    // Because of our RLS policy, if a normal student runs this, they get 1 row.
-    // If 'doctor@campus.edu' runs this, they get ALL rows.
+    // NEW: 2. The Frontend Route Guard (The Bouncer)
+    if (user.email !== 'doctor@vitbhopal.ac.in') {
+      alert("Access Denied: Authorized Medical Staff Only.");
+      router.push('/requests/new'); // Send the student back to their request hub
+      return;
+    }
+
+    // 3. Fetch all medical profiles (Only runs if the user is the doctor)
     const { data, error } = await supabase
       .from('medical_profiles')
       .select('*')
