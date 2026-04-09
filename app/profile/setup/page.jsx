@@ -46,9 +46,10 @@ export default function EHRSetupForm() {
           <label className="block text-sm font-medium text-gray-700">Full Name</label>
           <input 
             type="text" 
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => setFormData({...formData, full_name: e.target.value})} 
             required 
+            placeholder="e.g., Jane Doe"
           />
         </div>
 
@@ -56,12 +57,18 @@ export default function EHRSetupForm() {
         <div>
           <label className="block text-sm font-medium text-gray-700">Blood Group</label>
           <select 
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => setFormData({...formData, blood_group: e.target.value})}
+            defaultValue="A+"
           >
             <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
             <option value="O+">O+</option>
-            {/* Add other options */}
+            <option value="O-">O-</option>
           </select>
         </div>
 
@@ -69,8 +76,21 @@ export default function EHRSetupForm() {
         <div>
           <label className="block text-sm font-medium text-gray-700">Known Allergies (if any)</label>
           <textarea 
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => setFormData({...formData, known_allergies: e.target.value})} 
+            placeholder="e.g., Penicillin, Peanuts"
+            rows="3"
+          />
+        </div>
+
+        {/* Chronic Conditions Textarea */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Chronic Conditions (if any)</label>
+          <textarea 
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+            onChange={(e) => setFormData({...formData, chronic_conditions: e.target.value})} 
+            placeholder="e.g., Asthma, Type 1 Diabetes"
+            rows="3"
           />
         </div>
 
